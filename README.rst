@@ -1,44 +1,60 @@
 Python logging handler
+======================
+Python logging handler via Telegram
+
+Installation
+============
+
+Via pip:
+
+.. code-block:: shell
+
+    pip install . --user
+
 
 
 HowTo Use:
+==========
 
-import telegram_log, logging
+.. code-block:: python
 
-logger = logging.getLogger('myApp')
+    import telegram_log, logging
 
-handler = telegram_log.TelegramLog('bot_token')
+    logger = logging.getLogger('myApp')
 
-formatter = telegram_log.MarkdownFormatter()
+    handler = telegram_log.TelegramLog('bot_token')
 
-handler.setFormatter(formatter)
+    formatter = telegram_log.MarkdownFormatter()
 
-logger.addHandler(handler)
+    handler.setFormatter(formatter)
 
-logger.setLevel(logging.WARNING)
+    logger.addHandler(handler)
 
-logger.warning('we have a warning')
+    logger.setLevel(logging.WARNING)
+
+    logger.warning('we have a warning')
 
 
 
 Use with config file:
+=====================
 
-USER_LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'telegram': {
-            'class': 'telegram_log.TelegramLog',
-            'token': 'bot_token',
-            'chat_id': 'chat_id',
-        },
-    },
-    "loggers": {
-        'default': {
-            'level': 'DEBUG',
-            'handlers': ['telegram']
-        },
-    },
-}
+.. code-block:: python
 
-
+        USER_LOGGING = {
+            'version': 1,
+            'disable_existing_loggers': False,
+            'handlers': {
+                'telegram': {
+                    'class': 'telegram_log.TelegramLog',
+                    'token': 'bot_token',
+                    'chat_id': 'chat_id',
+                },
+            },
+            "loggers": {
+                'default': {
+                    'level': 'DEBUG',
+                    'handlers': ['telegram']
+                },
+            },
+        }
