@@ -6,12 +6,19 @@ HowTo Use:
 import telegram_log, logging
 
 logger = logging.getLogger('myApp')
+
 handler = telegram_log.TelegramLog('bot_token')
+
 formatter = telegram_log.MarkdownFormatter()
+
 handler.setFormatter(formatter)
+
 logger.addHandler(handler)
+
 logger.setLevel(logging.WARNING)
+
 logger.warning('we have a warning')
+
 
 
 Use with config file:
