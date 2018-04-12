@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 setup(
     install_requires=['requests'],
     name='telegram-logging',
-    version='0.1',
+    version='0.1.1',
     packages=['telegram_log'],
     url='https://github.com/axce1/telegram-logging',
     license='WTFPL',
