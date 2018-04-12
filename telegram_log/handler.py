@@ -1,3 +1,4 @@
+import typing
 import logging
 import requests
 
@@ -17,22 +18,25 @@ class TelegramLog(logging.Handler):
         self.chat_id = chat_id or self.get_chat_id()
         self.setFormatter(HTMLFormatter())
 
-    def bot_url(self, token, method, **kwargs):
+    def bot_url(self, method: str, **kwargs) -> str:
         return 'https://api.telegram.org/bot{token}/{method}'\
-            .format(token=token, method=method)
+            .format(token=self.token, method=method)
 
-    def send_request(self, method, **kwargs):
-        url = self.bot_url(self.token, method)
+    def send_request(self, method: str, **kwargs) -> str:
+        url = self.bot_url(method)
 
         try:
             resp = requests.post(url, **kwargs)
+            print(resp.status_code)
+            print(url)
+            print(**kwargs)
             assert resp.status_code == 200
             return resp.json()
         except:
             logger.exception('Error POST request to {url}'.format(url=url))
         return resp
 
-    def get_chat_id(self):
+    def get_chat_id(self) -> str:
         resp = self.send_request('getUpdates')
 
         try:
@@ -40,9 +44,11 @@ class TelegramLog(logging.Handler):
         except IndexError:
            logger.debug(resp)
 
-    def send_message(self, message, **kwargs):
+    def send_message(self, message: str, **kwargs) -> str:
         data = {'text': message}
         data.update(kwargs)
+
+        print(data)
 
         return self.send_request('sendMessage', json=data)
 
