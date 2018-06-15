@@ -27,9 +27,6 @@ class TelegramLog(logging.Handler):
 
         try:
             resp = requests.post(url, **kwargs)
-            print(resp.status_code)
-            print(url)
-            print(**kwargs)
             assert resp.status_code == 200
             return resp.json()
         except:
@@ -40,15 +37,13 @@ class TelegramLog(logging.Handler):
         resp = self.send_request('getUpdates')
 
         try:
-           return resp['result'][-1]['message']['chat']['id']
+            return resp['result'][-1]['message']['chat']['id']
         except IndexError:
-           logger.debug(resp)
+            logger.debug(resp)
 
     def send_message(self, message: str, **kwargs) -> str:
         data = {'text': message}
         data.update(kwargs)
-
-        print(data)
 
         return self.send_request('sendMessage', json=data)
 
